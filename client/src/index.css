@@ -57,7 +57,7 @@ body {
   font-size: 1.75rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
   color: var(--text-primary);
 }
 
@@ -65,17 +65,21 @@ body {
   text-align: center;
   color: var(--text-muted);
   font-size: 0.9rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .auth-card .logo {
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.form-group:last-of-type {
+  margin-bottom: 2.5rem;
 }
 
 .form-group label {
@@ -139,7 +143,7 @@ body {
 
 .auth-toggle {
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   font-size: 0.9rem;
   color: var(--text-muted);
 }
