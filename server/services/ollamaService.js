@@ -29,9 +29,11 @@ const generateEmbeddings = async (texts) => {
 
 const streamChat = async (prompt, context, onChunk) => {
     const systemPrompt = `You are a helpful assistant that answers questions based on the provided document context. 
+Each piece of context includes its source file and page number in brackets, like [Source: filename.pdf, Page: X].
 Use the context below to answer the user's question. If the context doesn't contain relevant information, 
 say that you don't have enough information from the document to answer the question.
 Be concise and accurate in your responses.
+IMPORTANT: At the very end of your answer, you MUST cite the sources you used in exactly this format: "(Source: filename.pdf, Page: X)". If you used multiple pages, list them.
 
 Context from the document:
 ${context}`;

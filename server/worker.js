@@ -36,6 +36,11 @@ const worker = new Worker(
             });
             const chunks = await splitter.splitDocuments(docs);
             const chunkTexts = chunks.map((chunk) => chunk.pageContent);
+            const chunkMetadatas = chunks.map((chunk, i) => ({
+                index: i,
+                page: chunk.metadata?.loc?.pageNumber || chunk.metadata?.page || 1,
+                source: originalName
+            }));
             console.log(`Created ${chunkTexts.length} chunks`);
 
             if (chunkTexts.length === 0) {
@@ -52,7 +57,7 @@ const worker = new Worker(
             // Step 4: Clear old data and store new embeddings in ChromaDB
             await job.updateProgress(80);
             await deleteCollection(userId);
-            await storeEmbeddings(userId, chunkTexts, embeddings);
+            await storeEmbeddings(userId, chunkTexts, embeddings, chunkMetadatas);
 
             // Step 5: Clean up uploaded file
             try {

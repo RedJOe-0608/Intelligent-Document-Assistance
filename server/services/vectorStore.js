@@ -28,12 +28,12 @@ const getOrCreateCollection = async (userId) => {
 };
 
 
-const storeEmbeddings = async (userId, chunks, embeddings) => {
+const storeEmbeddings = async (userId, chunks, embeddings, customMetadatas) => {
     const collection = await getOrCreateCollection(userId);
 
     const ids = chunks.map((_, i) => `chunk_${i}`);
     const documents = chunks.map((chunk) => chunk);
-    const metadatas = chunks.map((_, i) => ({ index: i }));
+    const metadatas = customMetadatas || chunks.map((_, i) => ({ index: i }));
 
     //ChromaDB lines up all four of your arrays perfectly by their index:
     // Item 0: Gets ids[0], documents[0], embeddings[0], and metadatas[0].
@@ -56,7 +56,13 @@ const queryEmbeddings = async (userId, queryEmbedding, nResults = 5) => {
         nResults,
     });
 
-    return results.documents[0] || [];
+    const documents = results.documents[0] || [];
+    const metadatas = results.metadatas[0] || [];
+
+    return documents.map((doc, i) => ({
+        content: doc,
+        metadata: metadatas[i] || {}
+    }));
 };
 
 const deleteCollection = async (userId) => {

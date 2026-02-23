@@ -90,7 +90,11 @@ router.get('/chat', auth, async (req, res) => {
 
         // 2. Query ChromaDB for relevant chunks
         const relevantChunks = await queryEmbeddings(req.user.id, queryEmbedding, 5);
-        const context = relevantChunks.join('\n\n---\n\n');
+        const context = relevantChunks.map(chunk => {
+            const source = chunk.metadata?.source || 'Unknown';
+            const page = chunk.metadata?.page || 'Unknown';
+            return `[Source: ${source}, Page: ${page}]\n${chunk.content}`;
+        }).join('\n\n---\n\n');
 
         if (!context || relevantChunks.length === 0) {
             res.write(`data: ${JSON.stringify({ token: "I don't have any document loaded to answer your question. Please upload a PDF first." })}\n\n`);
