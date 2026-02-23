@@ -1,0 +1,35 @@
+{
+  "name": "chat-with-pdf-server",
+  "version": "1.0.0",
+  "description": "Chat with PDF RAG backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "worker": "node worker.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/community": "^1.1.17",
+    "@langchain/core": "^1.1.27",
+    "@langchain/ollama": "^1.2.4",
+    "@langchain/textsplitters": "^1.0.1",
+    "bcryptjs": "^3.0.3",
+    "bullmq": "^5.70.0",
+    "chromadb": "^3.3.1",
+    "chromadb-default-embed": "^2.14.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
+    "ioredis": "^5.9.3",
+    "jsonwebtoken": "^9.0.3",
+    "langchain": "^1.2.25",
+    "mongoose": "^9.2.1",
+    "pdf-parse": "^1.1.1",
+    "uuid": "^13.0.0"
+  }
+}
