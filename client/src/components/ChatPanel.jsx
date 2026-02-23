@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { ArrowUp, MessageCircleMore } from 'lucide-react';
 import MessageBubble from './MessageBubble';
 
 const API_URL = 'http://localhost:3001/api';
@@ -140,7 +141,7 @@ const ChatPanel = ({ isReady }) => {
             <div className="chat-messages">
                 {messages.length === 0 ? (
                     <div className="chat-empty">
-                        <div className="chat-empty-icon">💬</div>
+                        <div className="chat-empty-icon"><MessageCircleMore size={48} strokeWidth={1.5} /></div>
                         <h3>Chat with your PDF</h3>
                         <p>
                             {isReady
@@ -174,7 +175,7 @@ const ChatPanel = ({ isReady }) => {
                         className="btn-send"
                         disabled={disabled || !input.trim()}
                     >
-                        ↑
+                        <ArrowUp size={20} />
                     </button>
                 </form>
                 <div className="chat-input-hint">

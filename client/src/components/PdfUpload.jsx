@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { Upload, FileText } from 'lucide-react';
 
 const API_URL = 'http://localhost:3001/api';
 
@@ -97,49 +98,15 @@ const PdfUpload = ({ onReady }) => {
     };
 
     const handleReupload = () => {
-        setStatus('idle');
-        setFileName('');
-        setPdfUrl(null);
-        setErrorMsg('');
-        if (fileInputRef.current) fileInputRef.current.value = '';
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''; // Clear value so selecting same file works
+            fileInputRef.current.click();
+        }
     };
 
     return (
         <div className="pdf-panel">
             <div className="pdf-panel-header">📄 Document</div>
-
-            {status !== 'idle' && (
-                <div className={`pdf-status ${status}`}>
-                    {status === 'uploading' && (
-                        <>
-                            <div className="spinner" />
-                            <span>Uploading {fileName}...</span>
-                        </>
-                    )}
-                    {status === 'processing' && (
-                        <>
-                            <div className="spinner" />
-                            <span>Processing PDF — extracting & embedding chunks...</span>
-                        </>
-                    )}
-                    {status === 'ready' && (
-                        <>
-                            <span>✓ {fileName} — Ready to chat</span>
-                            <button className="btn-reupload" onClick={handleReupload}>
-                                Upload new
-                            </button>
-                        </>
-                    )}
-                    {status === 'error' && (
-                        <>
-                            <span>✗ {errorMsg}</span>
-                            <button className="btn-reupload" onClick={handleReupload}>
-                                Try again
-                            </button>
-                        </>
-                    )}
-                </div>
-            )}
 
             {status === 'idle' ? (
                 <div
@@ -153,26 +120,51 @@ const PdfUpload = ({ onReady }) => {
                     onClick={() => fileInputRef.current?.click()}
                 >
                     <div className={`upload-area ${dragOver ? 'drag-over' : ''}`}>
-                        <div className="upload-icon">📤</div>
+                        <div className="upload-icon"><Upload size={32} strokeWidth={1.5} /></div>
                         <div className="upload-text">
-                            <span>Click to upload</span> or drag and drop
-                            <br />
-                            PDF files only
+                            <span className="upload-text-title">Drag and drop</span>
+                            <span style={{ fontWeight: 'normal' }}>PDF files only</span>
                         </div>
+                        <button className="btn-reupload">
+                            Browse files
+                        </button>
                     </div>
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept=".pdf"
-                        onChange={handleFileSelect}
-                        style={{ display: 'none' }}
-                    />
+
                 </div>
             ) : pdfUrl ? (
-                <div className="pdf-preview">
-                    <iframe src={pdfUrl} title="PDF Preview" />
+                <div className="pdf-success-container">
+                    <div className={`pdf-success-card ${status}`}>
+                        <div className="pdf-success-icon">
+                            <FileText size={32} />
+                        </div>
+                        <div className="pdf-success-info">
+                            <h4>{fileName}</h4>
+                            <div className="pdf-success-status">
+                                {(status === 'uploading' || status === 'processing') && <div className="spinner small" />}
+                                <span>
+                                    {status === 'uploading' && 'Uploading...'}
+                                    {status === 'processing' && 'Processing PDF...'}
+                                    {status === 'ready' && 'Ready for chat'}
+                                    {status === 'error' && (errorMsg || 'Error processing file')}
+                                </span>
+                            </div>
+                        </div>
+                        {(status === 'ready' || status === 'error') && (
+                            <button className="btn-reupload" onClick={handleReupload}>
+                                {status === 'error' ? 'Try again' : 'Upload new'}
+                            </button>
+                        )}
+                    </div>
                 </div>
             ) : null}
+
+            <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf"
+                onChange={handleFileSelect}
+                style={{ display: 'none' }}
+            />
         </div>
     );
 };
