@@ -307,7 +307,6 @@ body {
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   color: var(--text-muted);
   font-size: 0.95rem;
 }

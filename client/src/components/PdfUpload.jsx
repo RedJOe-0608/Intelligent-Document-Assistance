@@ -122,8 +122,8 @@ const PdfUpload = ({ onReady }) => {
                     <div className={`upload-area ${dragOver ? 'drag-over' : ''}`}>
                         <div className="upload-icon"><Upload size={32} strokeWidth={1.5} /></div>
                         <div className="upload-text">
-                            <span className="upload-text-title">Drag and drop</span>
-                            <span style={{ fontWeight: 'normal' }}>PDF files only</span>
+                            <span className="upload-text-title">Upload or drag and drop</span>
+                            <span style={{ fontWeight: 'normal', fontSize: '0.8rem' }}>PDF files only</span>
                         </div>
                         <button className="btn-reupload">
                             Browse files
